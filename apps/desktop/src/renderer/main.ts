@@ -228,43 +228,25 @@ function editorDraft(form: HTMLElement): SourceDraft {
 function renderSettings(): void {
   const { config } = state;
   const feedback = h("span");
+  const save = () => act(feedback, () => api.saveSettings(settingsFrom(form)), "Gespeichert");
   const form = h(
     "div",
     { class: "grid" },
-    h("div", {}, h("label", {}, "Horizont (Tage, danach alles blockiert)"), h("input", { type: "number", id: "horizon", min: 1, max: 730, value: config.horizonDays })),
-    h("div", {}, h("label", {}, "Sync-Intervall (Minuten)"), h("input", { type: "number", id: "interval", min: 5, max: 1440, value: config.syncIntervalMinutes })),
-    h("div", {}, h("label", {}, "Titel der Blocker"), h("input", { type: "text", id: "title", value: config.blockerTitle })),
-    h("div", {}, h("label", {}, " "), h("label", { class: "inline" }, h("input", { type: "checkbox", id: "login", checked: config.startAtLogin }), "Beim Anmelden starten")),
+    h("div", {}, h("label", {}, "Horizont (Tage, danach alles blockiert)"), h("input", { type: "number", id: "horizon", min: 1, max: 730, value: config.horizonDays, onchange: save })),
+    h("div", {}, h("label", {}, "Sync-Intervall (Minuten)"), h("input", { type: "number", id: "interval", min: 5, max: 1440, value: config.syncIntervalMinutes, onchange: save })),
+    h("div", {}, h("label", {}, "Titel der Blocker"), h("input", { type: "text", id: "title", value: config.blockerTitle, onchange: save })),
+    h("div", {}, h("label", {}, " "), h("label", { class: "inline" }, h("input", { type: "checkbox", id: "login", checked: config.startAtLogin, onchange: save }), "Beim Anmelden starten")),
   );
-  replaceContent(
-    sections.settings,
-    h("h2", {}, "Einstellungen"),
-    form,
-    h(
-      "div",
-      { class: "row" },
-      h(
-        "button",
-        {
-          class: "primary",
-          onclick: () =>
-            act(
-              feedback,
-              () =>
-                api.saveSettings({
-                  horizonDays: Number(inputValue(form, "#horizon")),
-                  syncIntervalMinutes: Number(inputValue(form, "#interval")),
-                  blockerTitle: inputValue(form, "#title"),
-                  startAtLogin: isChecked(form, "#login"),
-                }),
-              "Gespeichert",
-            ),
-        },
-        "Speichern",
-      ),
-      feedback,
-    ),
-  );
+  replaceContent(sections.settings, h("h2", {}, "Einstellungen"), form, h("div", { class: "row" }, feedback));
+}
+
+function settingsFrom(form: HTMLElement) {
+  return {
+    horizonDays: Number(inputValue(form, "#horizon")),
+    syncIntervalMinutes: Number(inputValue(form, "#interval")),
+    blockerTitle: inputValue(form, "#title"),
+    startAtLogin: isChecked(form, "#login"),
+  };
 }
 
 api.onStateChanged((next) => render(next));

@@ -15,7 +15,6 @@
 }
 body { margin: 0; background: var(--bg); color: var(--fg); }
 main { max-width: 700px; margin: 0 auto; padding: 16px 20px 32px; }
-h1 { font-size: 20px; margin: 4px 0 12px; }
 h2 { font-size: 14px; margin: 0 0 10px; }
 section { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; }
 label { display: block; margin: 8px 0 2px; color: var(--muted); }
@@ -25,6 +24,7 @@ button { font: inherit; padding: 5px 12px; border-radius: 6px; border: 1px solid
 button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 button:disabled { opacity: 0.5; cursor: default; }
 .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.row:empty { display: none; }
 .muted { color: var(--muted); }
 .error { color: var(--error); }
 .ok { color: var(--ok); }
