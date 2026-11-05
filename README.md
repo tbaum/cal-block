@@ -2,6 +2,20 @@
 
 Menüleisten-App für macOS. Sie spiegelt belegte Zeiten aus mehreren Kalenderquellen (ICS-URLs, iCloud) als anonyme „Busy“-Blocker in einen eigenen Google-Kalender „Blocker“ und hält ihn aktuell. Abgesagte, als frei markierte oder abgelehnte Termine geben die Zeit wieder frei. Alles jenseits des Horizonts (Standard 60 Tage) wird durch einen täglichen Ganztags-Blocker belegt.
 
+## Installation
+
+```bash
+pnpm install
+pnpm package:mac
+```
+
+Ergebnis: `apps/desktop/release/cal-block-0.0.0-arm64.dmg` (Apple Silicon). DMG öffnen, `cal-block` nach **Programme** ziehen, starten. Die App erscheint nur als Symbol in der Menüleiste (kein Dock-Symbol, kein Fenster).
+
+- Die App ist nur ad-hoc signiert (keine Apple-Developer-ID, keine Notarisierung). Lokal gebaut startet sie ohne Rückfrage; eine kopierte oder heruntergeladene App beim ersten Start per Rechtsklick → **Öffnen** freigeben.
+- **Beim Anmelden starten** in den Einstellungen trägt die App als Anmeldeobjekt ein (nur in der installierten App, nicht im Entwicklungsmodus).
+- Nach einem Update fragt der Schlüsselbund einmal erneut nach dem Zugriff → **Immer erlauben**.
+- Vor dem ersten Start der installierten App eine laufende Entwicklungsinstanz (`pnpm dev:desktop`) beenden, sonst synchronisieren zwei Apps.
+
 ## Google einrichten
 
 cal-block spricht mit deinem eigenen Google-Cloud-OAuth-Client. Das richtest du einmalig in der Google Cloud Console ein.
@@ -66,10 +80,11 @@ Google aktualisiert diese iCal-Adressen mit einigen Stunden Verzögerung.
 ## Entwicklung
 
 ```bash
-pnpm install
+pnpm install      # lädt auch das Electron-Binary
 pnpm build        # alle Pakete
 pnpm test         # Vitest
 pnpm dev:desktop  # Menüleisten-App im Entwicklungsmodus
+pnpm package:mac  # .app + .dmg nach apps/desktop/release/
 node apps/sync/dist/sync.cjs --dry-run   # einmaliger Lauf ohne Schreiben, zeigt den Plan
 ```
 

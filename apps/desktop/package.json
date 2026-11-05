@@ -8,15 +8,18 @@
     "postinstall": "node -e \"require('electron')\"",
     "dev": "electron-vite dev",
     "build": "tsc -p . && electron-vite build",
-    "typecheck": "tsc -p ."
+    "typecheck": "tsc -p .",
+    "package": "electron-vite build && electron-builder --mac --arm64"
   },
   "dependencies": {
-    "@cal-block/core": "workspace:*",
     "@napi-rs/keyring": "^2.1.2"
   },
   "devDependencies": {
+    "@cal-block/core": "workspace:*",
     "electron": "^45.2.3",
+    "electron-builder": "^26.18.0",
     "electron-vite": "^6.0.0",
     "vite": "^8.3.6"
-  }
+  },
+  "description": "Mirrors busy time into a Google blocker calendar"
 }

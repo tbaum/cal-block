@@ -79,7 +79,8 @@ Vanilla TypeScript + plain HTML/CSS, `contextIsolation`, preload exposes a typed
 - [App-specific iCloud password revoked] → source fails, blockers stay, status shows the error.
 - [User deletes a blocker by hand] → recreated on next run (expected).
 - [Unsigned app: Keychain asks "Always Allow" once per app build, a scheduled run can wait on that prompt] → accepted by user (E2a); status shows the run as pending/failed until confirmed.
-- [Unsigned app blocked by Gatekeeper] → personal use, open via right-click once.
+- [No Developer ID] → packaged with an ad-hoc signature (`identity: "-"`, hardened runtime off): Apple Silicon refuses to run unsigned arm64 code, and electron-builder invalidates Electron's own signature. Locally built apps start without a prompt; copied/downloaded ones need right-click → Open once.
+- [Electron 45 downloads its binary lazily and electron-vite 6 never triggers it] → `postinstall` in `apps/desktop` runs `require('electron')`.
 - [App quit or not started at login → no sync, blockers age] → start at login default on; status shows last run time.
 - [Daily recurring horizon event pattern looks heavy in month view] → accepted by user (E1b).
 

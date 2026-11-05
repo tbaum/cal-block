@@ -41,5 +41,5 @@
 
 ## 6. Packaging
 
-- [ ] 6.1 electron-builder unsigned `.app`/`.dmg` with `LSUIElement` (menu bar only)
-- [ ] 6.2 README: Google OAuth client setup, iCloud app-specific password, install
+- [x] 6.1 electron-builder ad-hoc signed `.app`/`.dmg` with `LSUIElement` (menu bar only)
+- [x] 6.2 README: Google OAuth client setup, iCloud app-specific password, install
