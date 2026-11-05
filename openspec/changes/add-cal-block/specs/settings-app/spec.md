@@ -1,5 +1,20 @@
 ## ADDED Requirements
 
+### Requirement: Menu bar presence
+The app SHALL run as a menu bar app only: no Dock icon, no window at start. The menu bar icon SHALL show an error state when the last run failed. The menu SHALL contain: last run time and outcome, "Sync now", "Settings…", "Quit".
+
+#### Scenario: Start
+- **WHEN** the app starts
+- **THEN** only the menu bar icon appears, no Dock icon and no window
+
+#### Scenario: Last run failed
+- **WHEN** the last run ended with outcome `failed` or `partial`
+- **THEN** the menu bar icon shows the error state and the menu shows the error summary
+
+#### Scenario: Open settings
+- **WHEN** the user chooses "Settings…"
+- **THEN** the settings window opens; closing it leaves the app running in the menu bar
+
 ### Requirement: Google connection
 The app SHALL connect a Google account through OAuth with a user-provided Desktop OAuth client, using a loopback redirect, and store the refresh token in the Keychain. On first connection it SHALL create the blocker calendar.
 
@@ -9,7 +24,7 @@ The app SHALL connect a Google account through OAuth with a user-provided Deskto
 
 #### Scenario: Disconnect
 - **WHEN** the user clicks "Disconnect"
-- **THEN** the refresh token is removed from the Keychain and the schedule stops writing
+- **THEN** the refresh token is removed from the Keychain and periodic runs stop writing until reconnected
 
 ### Requirement: Source management
 The app SHALL let the user add, edit, enable/disable and remove sources of type `ics` and `icloud`, including optional owner email addresses for declined detection.
@@ -23,15 +38,15 @@ The app SHALL let the user add, edit, enable/disable and remove sources of type 
 - **THEN** the app shows the number of busy occurrences in the window or the error
 
 ### Requirement: Sync settings
-The app SHALL let the user set the horizon in days, the blocker title, the schedule interval and enable/disable the schedule.
+The app SHALL let the user set the horizon in days, the blocker title, the sync interval and "start at login".
 
 #### Scenario: Change horizon
 - **WHEN** the user sets the horizon to 90 days
 - **THEN** the next run maintains individual blockers for 90 days and starts the beyond-horizon block on day 91
 
 ### Requirement: Status and manual run
-The app SHALL show the last run's time, outcome, change counts and per-source errors, and SHALL offer "Sync now", which runs the same sync CLI.
+The settings window SHALL show the last run's time, outcome, change counts and per-source errors. "Sync now" in the menu and in the window SHALL start a run in the app.
 
 #### Scenario: Sync now
-- **WHEN** the user clicks "Sync now"
-- **THEN** the sync CLI runs and the status view refreshes when it finishes
+- **WHEN** the user chooses "Sync now"
+- **THEN** a run starts in the app, the menu shows "running", and menu and status view refresh when it finishes

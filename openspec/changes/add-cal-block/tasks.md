@@ -25,7 +25,7 @@
 
 ## 4. Sync CLI
 
-- [ ] 4.1 Run pipeline: lock, read config/secrets, sources, plan, apply or dry-run print
+- [ ] 4.1 Run pipeline in core (`runSync`): lock, read config/secrets, sources, plan, apply or dry-run result; CLI prints it
 - [ ] 4.2 Status file and log with secret redaction
 - [ ] 4.3 End-to-end test against fake sources and fake Google (idempotent second run)
 
@@ -34,11 +34,13 @@
 - [ ] 5.1 Typed IPC API in preload
 - [ ] 5.2 Google connect/disconnect UI
 - [ ] 5.3 Source list: add/edit/remove/enable, iCloud calendar discovery, "Test"
-- [ ] 5.4 Sync settings: horizon, title, interval, schedule on/off
-- [ ] 5.5 launchd agent install/update/remove (`launchctl bootstrap`/`bootout`) with plist generation tests
-- [ ] 5.6 Status view and "Sync now"
+- [ ] 5.4 Sync settings: horizon, title, interval, start at login
+- [ ] 5.5 Menu bar: hidden Dock icon, tray with template icons (normal/error), menu with status, "Sync now", "Settings…", "Quit"
+- [ ] 5.6 Scheduler in main process: run on start, interval timer, run on wake if overdue, re-arm on interval change; tests with fake clock
+- [ ] 5.7 Login item toggle via `setLoginItemSettings`
+- [ ] 5.8 Status view in settings window
 
 ## 6. Packaging
 
-- [ ] 6.1 electron-builder unsigned `.app`/`.dmg` with bundled `sync.cjs`; plist points to Electron binary with `ELECTRON_RUN_AS_NODE=1`
+- [ ] 6.1 electron-builder unsigned `.app`/`.dmg` with `LSUIElement` (menu bar only)
 - [ ] 6.2 README: Google OAuth client setup, iCloud app-specific password, install

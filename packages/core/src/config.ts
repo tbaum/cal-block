@@ -5,7 +5,8 @@ export interface Config {
   readonly sources: readonly Source[];
   readonly horizonDays: number;
   readonly blockerTitle: string;
-  readonly schedule: { readonly enabled: boolean; readonly intervalMinutes: number };
+  readonly syncIntervalMinutes: number;
+  readonly startAtLogin: boolean;
   readonly google: { readonly clientId?: string; readonly calendarId?: string };
 }
 
@@ -13,6 +14,7 @@ export const DEFAULT_CONFIG: Config = {
   sources: [],
   horizonDays: DEFAULT_HORIZON_DAYS,
   blockerTitle: "Busy",
-  schedule: { enabled: false, intervalMinutes: 60 },
+  syncIntervalMinutes: 60,
+  startAtLogin: true,
   google: {},
 };
