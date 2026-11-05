@@ -18,10 +18,10 @@
 
 ## 3. Adapters
 
-- [ ] 3.1 ICS source fetcher (http/https/webcal)
-- [ ] 3.2 iCloud CalDAV source via `tsdav` (calendar discovery, time-range fetch)
-- [ ] 3.3 Google Calendar adapter: list marked blockers, insert/patch/delete with backoff, create blocker calendar
-- [ ] 3.4 Google OAuth loopback flow and token refresh
+- [x] 3.1 ICS source fetcher (http/https/webcal)
+- [x] 3.2 iCloud CalDAV source via `tsdav` (calendar discovery, time-range fetch)
+- [x] 3.3 Google Calendar adapter: list marked blockers, insert/patch/delete with backoff, create blocker calendar
+- [x] 3.4 Google OAuth loopback flow and token refresh
 
 ## 4. Sync CLI
 

@@ -11,8 +11,11 @@
     "typecheck": "tsc -p ."
   },
   "dependencies": {
+    "@googleapis/calendar": "^20.1.0",
     "@napi-rs/keyring": "^2.1.2",
+    "google-auth-library": "^11.3.3",
     "ical.js": "^2.2.1",
+    "tsdav": "^2.5.0",
     "zod": "^4.6.7"
   }
 }
