@@ -129,11 +129,24 @@ describe("AppService settings and sync", () => {
   it("syncs, records the status and notifies listeners", async () => {
     const app = service();
     await app.saveSource({ kind: "ics", name: "Work", enabled: true, ownerEmails: [], secret: "https://secret/work.ics" });
-    let notifications = 0;
-    app.onChange(() => notifications++);
+    const notifications: string[] = [];
+    app.onChange((kind) => notifications.push(kind));
     await app.sync();
     expect((await app.state()).status).toMatchObject({ outcome: "ok", counts: { created: 2 } });
     expect(await app.lastRunAt()).toEqual(new Date("2026-11-05T17:00:00.000Z"));
-    expect(notifications).toBe(1);
+    expect(notifications).toEqual(["state"]);
+  });
+
+  it("reports config changes separately from state changes", async () => {
+    const app = service({ authorize: async () => "refresh-token", googleCalendars: () => calendarsApi([]) });
+    const notifications: string[] = [];
+    app.onChange((kind) => notifications.push(kind));
+    await app.connectGoogle({ clientId: "client-id", clientSecret: "client-secret" });
+    await app.saveSource({ kind: "ics", name: "Work", enabled: true, ownerEmails: [], secret: "https://secret/work.ics" });
+    await app.saveSettings({ horizonDays: 30, blockerTitle: "Busy", syncIntervalMinutes: 60, startAtLogin: true });
+    const id = (await loadConfig(paths.configFile)).sources[0]?.id ?? "";
+    await app.removeSource(id);
+    await app.disconnectGoogle();
+    expect(notifications).toEqual(["config", "config", "config", "config", "state"]);
   });
 });

@@ -57,22 +57,24 @@ export interface ServiceState {
   readonly status?: StoredStatus;
 }
 
+export type ChangeKind = "config" | "state";
+
 export type AppService = ReturnType<typeof createAppService>;
 
 export function createAppService(deps: AppServiceDeps) {
-  const listeners = new Set<() => void>();
+  const listeners = new Set<(kind: ChangeKind) => void>();
   const now = deps.now ?? (() => new Date());
   const connectCalDav = deps.connectCalDav ?? connectIcloud;
   const readSourceTexts = deps.readSourceTexts ?? sourceTextReader({ downloadIcs: (url) => fetchIcs(url), connectCalDav });
-  const notify = () => listeners.forEach((listener) => listener());
+  const notify = (kind: ChangeKind) => listeners.forEach((listener) => listener(kind));
   const config = () => loadConfig(deps.paths.configFile);
   const updateConfig = async (change: (current: Config) => Config) => {
     await saveConfig(deps.paths.configFile, change(await config()));
-    notify();
+    notify("config");
   };
 
   return {
-    onChange(listener: () => void): () => void {
+    onChange(listener: (kind: ChangeKind) => void): () => void {
       listeners.add(listener);
       return () => listeners.delete(listener);
     },
@@ -114,7 +116,7 @@ export function createAppService(deps: AppServiceDeps) {
       const source = sourceFromDraft(id, draft);
       await saveConfig(deps.paths.configFile, { ...current, sources: upsert(current.sources, source) });
       if (draft.secret) await deps.secrets.set(secretAccounts.source(id), draft.secret);
-      notify();
+      notify("config");
     },
 
     async removeSource(sourceId: string): Promise<void> {
@@ -155,7 +157,7 @@ export function createAppService(deps: AppServiceDeps) {
 
     async disconnectGoogle(): Promise<void> {
       await deps.secrets.remove(secretAccounts.googleRefreshToken);
-      notify();
+      notify("state");
     },
 
     async sync(): Promise<void> {
@@ -171,7 +173,7 @@ export function createAppService(deps: AppServiceDeps) {
       } catch (error) {
         if (!(error instanceof AlreadyRunningError)) throw error;
       } finally {
-        notify();
+        notify("state");
       }
     },
   };

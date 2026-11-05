@@ -50,9 +50,9 @@ async function startMenuBarApp(): Promise<void> {
     });
 
   registerCommands(commands);
-  service.onChange(() => {
+  service.onChange((kind) => {
     pushState();
-    void scheduler.rearm();
+    if (kind === "config") scheduler.runSoon();
   });
   powerMonitor.on("resume", () => void scheduler.onWake());
   app.on("second-instance", () => window.show());

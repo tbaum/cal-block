@@ -15,6 +15,7 @@ export class SyncScheduler {
   #current: Promise<void> | undefined;
   #lastAttemptAt: Date | undefined;
   #nextRunAt: Date | undefined;
+  #rerunRequested = false;
   #stopped = false;
 
   constructor(deps: SchedulerDeps) {
@@ -32,6 +33,11 @@ export class SyncScheduler {
   runNow(): Promise<void> {
     this.#current ??= this.#runOnce();
     return this.#current;
+  }
+
+  runSoon(): void {
+    if (this.#current) this.#rerunRequested = true;
+    else void this.runNow();
   }
 
   async onWake(): Promise<void> {
@@ -63,8 +69,15 @@ export class SyncScheduler {
       this.#deps.onError?.(error);
     } finally {
       this.#current = undefined;
-      await this.rearm();
+      if (this.#takeRerunRequest()) void this.runNow();
+      else await this.rearm();
     }
+  }
+
+  #takeRerunRequest(): boolean {
+    const requested = this.#rerunRequested && !this.#stopped;
+    this.#rerunRequested = false;
+    return requested;
   }
 
   async #dueAt(): Promise<Date> {

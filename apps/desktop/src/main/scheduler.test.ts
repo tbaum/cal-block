@@ -96,6 +96,28 @@ describe("SyncScheduler", () => {
     h.scheduler.stop();
   });
 
+  it("runs soon when idle", async () => {
+    const h = harness();
+    h.scheduler.runSoon();
+    await vi.advanceTimersByTimeAsync(0);
+    expect(h.runs).toHaveLength(1);
+    h.scheduler.stop();
+  });
+
+  it("runs once more after the active run when asked to run soon", async () => {
+    const h = harness();
+    h.block();
+    const first = h.scheduler.runNow();
+    await vi.advanceTimersByTimeAsync(0);
+    h.scheduler.runSoon();
+    h.scheduler.runSoon();
+    h.release();
+    await first;
+    await vi.advanceTimersByTimeAsync(0);
+    expect(h.runs).toHaveLength(2);
+    h.scheduler.stop();
+  });
+
   it("stops scheduling after stop", async () => {
     const h = harness();
     await h.scheduler.start();
