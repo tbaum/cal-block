@@ -73,6 +73,7 @@ Vanilla TypeScript + plain HTML/CSS, `contextIsolation`, preload exposes a typed
 - [Google iCal secret URL feeds lag up to several hours behind Google] → documented; use Google API source later if it matters.
 - [App-specific iCloud password revoked] → source fails, blockers stay, status shows the error.
 - [User deletes a blocker by hand] → recreated on next run (expected).
+- [Unsigned app: Keychain asks "Always Allow" once per app build, a scheduled run can wait on that prompt] → accepted by user (E2a); status shows the run as pending/failed until confirmed.
 - [Unsigned app blocked by Gatekeeper] → personal use, open via right-click once.
 - [Daily recurring horizon event pattern looks heavy in month view] → accepted by user (E1b).
 
