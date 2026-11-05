@@ -4,7 +4,7 @@ import { activeSources, type Config } from "./config.ts";
 import { formatLocalDate, type LocalDate, type TimeRange } from "./dates.ts";
 import type { BlockerCalendar } from "./google.ts";
 import { planHorizonBlock, syncWindow, windowRange, type SyncWindow } from "./horizon.ts";
-import { expandCalendar } from "./occurrences.ts";
+import { expandCalendar, type Occurrence } from "./occurrences.ts";
 import { mergePlans, planChanges, type ChangePlan } from "./plan.ts";
 import { errorMessage } from "./redact.ts";
 import type { SecretStore } from "./secrets.ts";
@@ -92,12 +92,21 @@ export function failedResult(error: unknown, startedAt: Date, finishedAt: Date, 
   };
 }
 
+export async function readBusyOccurrences(
+  source: Source,
+  secrets: SecretStore,
+  readSourceTexts: SourceTextReader,
+  range: TimeRange,
+): Promise<Occurrence[]> {
+  const texts = await readSourceTexts(source, secrets, range);
+  return texts
+    .flatMap((text) => expandCalendar(text, source.id, range))
+    .filter((occurrence) => isBusy(occurrence, source.ownerEmails));
+}
+
 async function readSource(source: Source, input: SyncRunInput, range: TimeRange): Promise<SourceRead> {
   try {
-    const texts = await input.readSourceTexts(source, input.secrets, range);
-    const busy = texts
-      .flatMap((text) => expandCalendar(text, source.id, range))
-      .filter((occurrence) => isBusy(occurrence, source.ownerEmails));
+    const busy = await readBusyOccurrences(source, input.secrets, input.readSourceTexts, range);
     return {
       result: { id: source.id, name: source.name, ok: true, busyOccurrences: busy.length },
       blockers: busy.map((occurrence) => blockerFor(occurrence, input.config.blockerTitle)),

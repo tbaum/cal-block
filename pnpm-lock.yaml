@@ -23,6 +23,9 @@ importers:
       '@cal-block/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@napi-rs/keyring':
+        specifier: ^2.1.2
+        version: 2.1.2
     devDependencies:
       electron:
         specifier: ^45.2.3

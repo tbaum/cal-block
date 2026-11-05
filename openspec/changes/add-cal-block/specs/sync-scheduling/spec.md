@@ -30,8 +30,8 @@ The app SHALL offer "start at login" (default on) and register itself as a macOS
 Only one sync SHALL run at a time across the app and the CLI. A run that finds another live run SHALL exit without doing anything; a lock left by a dead process SHALL be taken over.
 
 #### Scenario: Concurrent start
-- **WHEN** "Sync now" is chosen while a scheduled run is active
-- **THEN** no second run starts and the menu shows "running"
+- **WHEN** "Jetzt synchronisieren" is chosen while a scheduled run is active
+- **THEN** no second run starts and the menu shows "Synchronisiere …"
 
 ### Requirement: Run status and log
 Each run SHALL write a status file (start, end, outcome, per-source result, counts of created/updated/deleted blockers, error messages) and append to a log file in `~/Library/Logs/cal-block`. Secrets MUST NOT appear in status or log.

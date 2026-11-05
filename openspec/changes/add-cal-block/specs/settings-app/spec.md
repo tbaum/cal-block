@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Menu bar presence
-The app SHALL run as a menu bar app only: no Dock icon, no window at start. The menu bar icon SHALL show an error state when the last run failed. The menu SHALL contain: last run time and outcome, "Sync now", "Settings…", "Quit".
+The app SHALL run as a menu bar app only: no Dock icon, no window at start. The menu bar icon SHALL show an error state when the last run failed. The menu SHALL contain: last run time and outcome (with up to three error lines), "Jetzt synchronisieren", "Einstellungen…", "Beenden".
 
 #### Scenario: Start
 - **WHEN** the app starts
@@ -12,7 +12,7 @@ The app SHALL run as a menu bar app only: no Dock icon, no window at start. The 
 - **THEN** the menu bar icon shows the error state and the menu shows the error summary
 
 #### Scenario: Open settings
-- **WHEN** the user chooses "Settings…"
+- **WHEN** the user chooses "Einstellungen…"
 - **THEN** the settings window opens; closing it leaves the app running in the menu bar
 
 ### Requirement: Google connection
@@ -44,9 +44,9 @@ The app SHALL let the user set the horizon in days, the blocker title, the sync 
 - **WHEN** the user sets the horizon to 90 days
 - **THEN** the next run maintains individual blockers for 90 days and starts the beyond-horizon block on day 91
 
-### Requirement: Status and manual run
-The settings window SHALL show the last run's time, outcome, change counts and per-source errors. "Sync now" in the menu and in the window SHALL start a run in the app.
+### Requirement: Status and manual run in the menu
+Status and "Jetzt synchronisieren" SHALL live in the menu bar menu only; the settings window holds settings only (Google connection, sources, sync options).
 
 #### Scenario: Sync now
-- **WHEN** the user chooses "Sync now"
-- **THEN** a run starts in the app, the menu shows "running", and menu and status view refresh when it finishes
+- **WHEN** the user chooses "Jetzt synchronisieren" in the menu
+- **THEN** a run starts in the app, the menu shows "Synchronisiere …", and the menu refreshes when it finishes

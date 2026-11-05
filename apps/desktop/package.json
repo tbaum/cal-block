@@ -10,7 +10,8 @@
     "typecheck": "tsc -p ."
   },
   "dependencies": {
-    "@cal-block/core": "workspace:*"
+    "@cal-block/core": "workspace:*",
+    "@napi-rs/keyring": "^2.1.2"
   },
   "devDependencies": {
     "electron": "^45.2.3",

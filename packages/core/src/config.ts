@@ -29,13 +29,17 @@ export class ConfigError extends Error {
 }
 
 export async function loadConfig(file: string): Promise<Config> {
-  const result = configSchema.safeParse((await readJsonIfExists(file)) ?? {});
-  if (!result.success) throw new ConfigError(file, z.prettifyError(result.error));
-  return result.data;
+  return validConfig(file, (await readJsonIfExists(file)) ?? {});
 }
 
 export async function saveConfig(file: string, config: Config): Promise<void> {
-  await writeFileAtomic(file, `${JSON.stringify(configSchema.parse(config), null, 2)}\n`);
+  await writeFileAtomic(file, `${JSON.stringify(validConfig(file, config), null, 2)}\n`);
+}
+
+function validConfig(file: string, candidate: unknown): Config {
+  const result = configSchema.safeParse(candidate);
+  if (!result.success) throw new ConfigError(file, z.prettifyError(result.error));
+  return result.data;
 }
 
 export function activeSources(config: Config) {

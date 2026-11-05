@@ -31,14 +31,13 @@
 
 ## 5. Desktop app
 
-- [ ] 5.1 Typed IPC API in preload
-- [ ] 5.2 Google connect/disconnect UI
-- [ ] 5.3 Source list: add/edit/remove/enable, iCloud calendar discovery, "Test"
-- [ ] 5.4 Sync settings: horizon, title, interval, start at login
-- [ ] 5.5 Menu bar: hidden Dock icon, tray with template icons (normal/error), menu with status, "Sync now", "Settings…", "Quit"
-- [ ] 5.6 Scheduler in main process: run on start, interval timer, run on wake if overdue, re-arm on interval change; tests with fake clock
-- [ ] 5.7 Login item toggle via `setLoginItemSettings`
-- [ ] 5.8 Status view in settings window
+- [x] 5.1 Typed IPC API in preload
+- [x] 5.2 Google connect/disconnect UI
+- [x] 5.3 Source list: add/edit/remove/enable, iCloud calendar discovery, "Test"
+- [x] 5.4 Sync settings: horizon, title, interval, start at login
+- [x] 5.5 Menu bar: hidden Dock icon, tray with template icons (normal/error), menu with status, "Jetzt synchronisieren", "Einstellungen…", "Beenden"
+- [x] 5.6 Scheduler in main process: run on start, interval timer, run on wake if overdue, re-arm on interval change; tests with fake clock
+- [x] 5.7 Login item toggle via `setLoginItemSettings`
 
 ## 6. Packaging
 
