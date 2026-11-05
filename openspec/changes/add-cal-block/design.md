@@ -35,6 +35,21 @@ Private extended properties on each blocker: `calblock=1`, `calblockKey=sha256(s
 ### Beyond-horizon block
 One event with `calblockKey=horizon`, all-day, `RRULE:FREQ=DAILY`, start = window end date. Fetched separately by key (no time bounds) and patched when its start date differs.
 
+### Occurrence semantics
+- Window membership: an occurrence belongs to the window if it overlaps `[window start, window end)`; days are local calendar days (DST-safe). Blockers outside the window are neither updated nor deleted.
+- Key uses the original occurrence start when there is no RECURRENCE-ID; changing a whole series' RRULE therefore yields delete + create, while moved single events and overridden instances are updates.
+- All-day events map 1:1 (exclusive end date); floating times are interpreted in the system time zone; multi-day timed events become one blocker.
+- Owner emails for declined detection are configured per source (`ownerEmails` in config.json); no auto-detection.
+
+### Blocker calendar lifecycle
+The calendar id is stored in config. On (re)connect the stored id is reused if it is still accessible, otherwise a new "Blocker" calendar is created and the id replaced. If the `calendar.app.created` scope is rejected for the OAuth client, the build stops and the scope question goes back to the user.
+
+### Partial failures
+Writes retry up to 5 times with exponential backoff; a run aborts after 10 minutes. Outcome in status: `ok`, `partial` (some sources or writes failed), `failed` (nothing applied, e.g. auth error).
+
+### iCloud calendar discovery
+Discovery lists all calendars whose supported components include VEVENT; no time-range probe.
+
 ### Google auth and scope
 User-provided OAuth client of type "Desktop", loopback redirect on `127.0.0.1:<random port>`, scope `https://www.googleapis.com/auth/calendar.app.created` (create and manage only calendars the app created). The app creates the calendar "Blocker" on first connect and stores its id in config. Alternative full `calendar` scope — broader than needed.
 
@@ -58,7 +73,6 @@ Vanilla TypeScript + plain HTML/CSS, `contextIsolation`, preload exposes a typed
 - [Google iCal secret URL feeds lag up to several hours behind Google] → documented; use Google API source later if it matters.
 - [App-specific iCloud password revoked] → source fails, blockers stay, status shows the error.
 - [User deletes a blocker by hand] → recreated on next run (expected).
-- [`calendar.app.created` scope unavailable for the OAuth client] → fall back to `calendar` scope; config keeps the calendar id either way.
 - [Unsigned app blocked by Gatekeeper] → personal use, open via right-click once.
 - [Daily recurring horizon event pattern looks heavy in month view] → accepted by user (E1b).
 

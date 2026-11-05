@@ -1,0 +1,16 @@
+{
+  "name": "@cal-block/sync",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p . && esbuild src/main.ts --bundle --platform=node --target=node24 --format=cjs --outfile=dist/sync.cjs",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@cal-block/core": "workspace:*"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

@@ -1,10 +1,10 @@
 ## 1. Skeleton
 
-- [ ] 1.1 pnpm workspace root: `package.json`, `pnpm-workspace.yaml`, `tsconfig.base.json` (strict, ESM, NodeNext), `.nvmrc` (24), Vitest workspace config, root scripts `build`, `test`, `typecheck`
-- [ ] 1.2 `packages/core` with module stubs (`config`, `sources`, `occurrences`, `busy`, `plan`, `google`, `horizon`, `paths`) and one passing Vitest test
-- [ ] 1.3 `apps/sync` CLI entry with `--dry-run` flag parsing, bundled by esbuild to `dist/sync.cjs`
-- [ ] 1.4 `apps/desktop` electron-vite app (main, preload, vanilla renderer) showing an empty settings window
-- [ ] 1.5 `pnpm build` and `pnpm test` green from a clean checkout
+- [x] 1.1 pnpm workspace root: `package.json`, `pnpm-workspace.yaml`, `tsconfig.base.json` (strict, ESM, NodeNext), `.nvmrc` (24), Vitest workspace config, root scripts `build`, `test`, `typecheck`
+- [x] 1.2 `packages/core` with module stubs (`config`, `dates`, `sources`, `occurrences`, `plan`, `google`, `horizon`, `paths`) and one passing Vitest test
+- [x] 1.3 `apps/sync` CLI entry with `--dry-run` flag parsing, bundled by esbuild to `dist/sync.cjs`
+- [x] 1.4 `apps/desktop` electron-vite app (main, preload, vanilla renderer) showing an empty settings window
+- [x] 1.5 `pnpm build` and `pnpm test` green from a clean checkout
 
 ## 2. Core logic
 
