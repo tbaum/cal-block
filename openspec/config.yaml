@@ -1,0 +1,11 @@
+schema: spec-driven
+
+context: |
+  cal-block: macOS-only personal tool. Mirrors busy time from several calendar
+  sources (ICS URLs, iCloud via CalDAV) as anonymous "Busy" blockers into a
+  dedicated Google calendar.
+  Tech stack: TypeScript (strict, ESM), Node 24, pnpm workspace
+  (packages/core, apps/sync, apps/desktop), Electron + electron-vite with a
+  vanilla TS renderer, Vitest. Conventional commits.
+  Code style: names and structure instead of comments; no JSDoc on new
+  declarations; one abstraction level per function.
