@@ -1,18 +1,22 @@
-interface SourceBase {
-  readonly id: string;
-  readonly name: string;
-  readonly enabled: boolean;
-  readonly ownerEmails: readonly string[];
-}
+import { z } from "zod";
 
-export interface IcsSource extends SourceBase {
-  readonly kind: "ics";
-}
+const sourceBase = {
+  id: z.string().min(1),
+  name: z.string().min(1),
+  enabled: z.boolean().default(true),
+  ownerEmails: z.array(z.email()).default([]),
+};
 
-export interface IcloudSource extends SourceBase {
-  readonly kind: "icloud";
-  readonly appleId: string;
-  readonly calendarUrls: readonly string[];
-}
+export const sourceSchema = z.discriminatedUnion("kind", [
+  z.object({ ...sourceBase, kind: z.literal("ics") }),
+  z.object({
+    ...sourceBase,
+    kind: z.literal("icloud"),
+    appleId: z.string().min(1),
+    calendarUrls: z.array(z.url()).default([]),
+  }),
+]);
 
-export type Source = IcsSource | IcloudSource;
+export type Source = z.infer<typeof sourceSchema>;
+export type IcsSource = Extract<Source, { kind: "ics" }>;
+export type IcloudSource = Extract<Source, { kind: "icloud" }>;

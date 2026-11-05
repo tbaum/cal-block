@@ -27,10 +27,10 @@ pnpm workspace: `packages/core` (pure logic + adapters), `apps/sync` (developer 
 Handles RRULE/EXDATE/RECURRENCE-ID overrides and VTIMEZONE reliably. Alternative `node-ical` — weaker with overridden instances. CalDAV via `tsdav` with a server-side time-range query; returned objects are parsed with the same `ical.js` path as ICS.
 
 ### Identity and change detection, no local state
-Private extended properties on each blocker: `calblock=1`, `calblockKey=sha256(sourceId|UID|RECURRENCE-ID or occurrence start)` (truncated), `calblockSource=<sourceId>`, `calblockHash=sha256(start|end|allDay|title)`. Existing blockers are listed with `privateExtendedProperty=calblock=1`, `singleEvents=false`, bounded by the window. Google itself is the state store — no local DB to drift. Alternative local SQLite map — rejected, more failure modes.
+Private extended properties on each blocker: `calblock=1`, `calblockKey=sha256(sourceId|UID|RECURRENCE-ID or occurrence start)` (truncated), `calblockSource=<sourceId>`, `calblockHash=sha256(start|end|allDay|title)`. Existing blockers are listed with `privateExtendedProperty=calblock=1`, `singleEvents=false`, `timeMin` = window start and no `timeMax`, so blockers left beyond a shrunk horizon are deleted too. Google itself is the state store — no local DB to drift. Alternative local SQLite map — rejected, more failure modes.
 
 ### Failure isolation
-`planChanges` only deletes blockers whose `calblockSource` was read successfully in this run, or whose source no longer exists in the config.
+`planChanges` only deletes blockers whose `calblockSource` was read successfully in this run, or whose source is no longer active (removed or disabled) in the config.
 
 ### Beyond-horizon block
 One event with `calblockKey=horizon`, all-day, `RRULE:FREQ=DAILY`, start = window end date. Fetched separately by key (no time bounds) and patched when its start date differs.
@@ -89,4 +89,5 @@ New project, nothing to migrate. Rollback: quit the app and disable start at log
 
 ## Open Questions
 
-- none blocking the skeleton
+- Overridden instance whose original date lies beyond the window but was moved into it is not found (iteration stops at the window end). Accepted as rare.
+- TZID without a matching VTIMEZONE in the feed is treated like UTC by ical.js. Google and iCloud ship VTIMEZONEs; revisit if a feed (e.g. Outlook) breaks.

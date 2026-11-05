@@ -8,13 +8,13 @@
 
 ## 2. Core logic
 
-- [ ] 2.1 Config + paths: load/save `config.json` with defaults and schema validation
-- [ ] 2.2 Keychain secret store with in-memory fake
-- [ ] 2.3 ICS parsing and recurrence expansion within the window (`ical.js`), tests for RRULE, EXDATE, overridden instance, all-day, time zones
-- [ ] 2.4 Busy filter (cancelled, transparent, declined by owner) with tests
-- [ ] 2.5 Blocker identity and content hash
-- [ ] 2.6 `planChanges` (create/update/delete, failure isolation, removed source) with tests
-- [ ] 2.7 Beyond-horizon block planning with tests (window end moves daily)
+- [x] 2.1 Config + paths: load/save `config.json` with defaults and schema validation
+- [x] 2.2 Keychain secret store with in-memory fake
+- [x] 2.3 ICS parsing and recurrence expansion within the window (`ical.js`), tests for RRULE, EXDATE, overridden instance, all-day, time zones
+- [x] 2.4 Busy filter (cancelled, transparent, declined by owner) with tests
+- [x] 2.5 Blocker identity and content hash
+- [x] 2.6 `planChanges` (create/update/delete, failure isolation, removed source) with tests
+- [x] 2.7 Beyond-horizon block planning with tests (window end moves daily)
 
 ## 3. Adapters
 
