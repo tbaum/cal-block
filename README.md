@@ -97,4 +97,4 @@ Dateien:
 | Log | `~/Library/Logs/cal-block/sync.log` |
 | Geheimnisse | macOS-Schlüsselbund, Dienst `cal-block` |
 
-Spezifikation und Design: `openspec/changes/add-cal-block/`.
+Spezifikation: `openspec/specs/`, Design und Entscheidungen: `openspec/changes/archive/2026-11-05-add-cal-block/`.
