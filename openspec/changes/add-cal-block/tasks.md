@@ -25,9 +25,9 @@
 
 ## 4. Sync CLI
 
-- [ ] 4.1 Run pipeline in core (`runSync`): lock, read config/secrets, sources, plan, apply or dry-run result; CLI prints it
-- [ ] 4.2 Status file and log with secret redaction
-- [ ] 4.3 End-to-end test against fake sources and fake Google (idempotent second run)
+- [x] 4.1 Run pipeline in core (`runSync`): lock, read config/secrets, sources, plan, apply or dry-run result; CLI prints it
+- [x] 4.2 Status file and log with secret redaction
+- [x] 4.3 End-to-end test against fake sources and fake Google (idempotent second run)
 
 ## 5. Desktop app
 
